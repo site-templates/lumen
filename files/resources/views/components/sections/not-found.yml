@@ -1,0 +1,36 @@
+title: Not found
+description: The 404 message — eyebrow, headline with italic accent, and two ways back
+fields:
+    eyebrow:
+        type: text
+        label: Eyebrow
+        default: "Error 404"
+    headingStart:
+        type: text
+        label: Heading
+        default: "This page never saw the"
+    headingAccent:
+        type: text
+        label: Heading accent
+        description: Rendered in italics inside the heading.
+        default: "light"
+    body:
+        type: textarea
+        label: Supporting copy
+        default: "The address may be mistyped, or the page may have moved on. Either way, there's nothing to measure here — head back and pick up where you left off."
+    buttonText:
+        type: text
+        label: Primary button text
+        default: "Back to the homepage"
+    buttonLink:
+        type: url
+        label: Primary button link
+        default: "/"
+    secondaryText:
+        type: text
+        label: Secondary link text
+        default: "Read the writings"
+    secondaryLink:
+        type: url
+        label: Secondary link
+        default: "/writings"
