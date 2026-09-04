@@ -3,12 +3,26 @@
 
     Everything here is a progressive enhancement: with JavaScript off, the
     header simply keeps its resting size and the page stays fully usable.
+
+    Pages change in place: instant navigation swaps <main> and keeps the
+    header, so everything below binds once; after `instant:navigated` the
+    header re-evaluates its scrolled state, the current-page mark moves, and
+    a mobile menu used to get here is folded. Nothing inside <main> is
+    script-driven (the entrance animations are CSS and play on their own).
 */
 
-document.addEventListener('DOMContentLoaded', function () {
-    stickyHeader();
+const header = stickyHeader();
+markCurrentMenuItem();
+closeMobileMenuOnNavigate();
+
+document.addEventListener('instant:navigated', function () {
+    document.querySelectorAll('details.menu[open]').forEach(function (details) {
+        details.removeAttribute('open');
+    });
+    if (header) {
+        header.evaluate();
+    }
     markCurrentMenuItem();
-    closeMobileMenuOnNavigate();
 });
 
 /*
@@ -20,7 +34,7 @@ function stickyHeader() {
     const header = document.getElementById('header');
 
     if (!header) {
-        return;
+        return null;
     }
 
     function evaluate() {
@@ -29,11 +43,14 @@ function stickyHeader() {
 
     evaluate();
     window.addEventListener('scroll', evaluate, { passive: true });
+
+    return { evaluate: evaluate };
 }
 
 /*
     aria-current tells screen readers which page you are on, and styles the
     active link. Section pages like /writings/some-post light up /writings too.
+    Recomputed after every page change, so the previous mark is cleared first.
 */
 function markCurrentMenuItem() {
     document.querySelectorAll('header nav a').forEach(function (link) {
@@ -41,6 +58,8 @@ function markCurrentMenuItem() {
 
         if (link.pathname !== '/' && (path === link.pathname || path.startsWith(link.pathname + '/'))) {
             link.setAttribute('aria-current', 'page');
+        } else {
+            link.removeAttribute('aria-current');
         }
     });
 }

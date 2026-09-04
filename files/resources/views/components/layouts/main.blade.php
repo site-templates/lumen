@@ -25,7 +25,7 @@
     <!-- Header shrink-on-scroll and current-page marking — see public/js/main.js -->
     <script src="/js/main.js" defer></script>
 </head>
-<body class="flex min-h-dvh flex-col bg-white text-[#0f231d] antialiased">
+<body class="flex min-h-dvh flex-col bg-white text-[#0f231d] antialiased" data-instant-navigation>
 
     <x-nav/>
 
